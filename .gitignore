@@ -100,3 +100,6 @@ ENV/
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+/*.wpr
+/*.wpu
+/config/config_local.py
