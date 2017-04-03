@@ -1,7 +1,8 @@
 ﻿import os.path
 
 BOT_TOKEN = "TELEGRAMBOTTOKEN"
-MONGODB_URL = "mongodb://localhost:27017/bardakbot"
+MONGODB_URL = "mongodb://localhost:27017/"
+MONGODB_DATABASE = "bardakbot"
 
 START_TEXT = """Привет!
 Это бот на Бардак.
