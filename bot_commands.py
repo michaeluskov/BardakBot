@@ -36,19 +36,4 @@ def get_room_code(bot, update):
 def error_handler(bot, update, error):
     logger.warning('Update "%s" caused error "%s"' % (update, error))
 
-TEXT_COMMANDS = {
-    "Помощь": start,
-    "Код для комнаты (.*)": get_room_code
-}
-
-def handle_text_command(bot, update):
-    text = update.message.text
-    suitable_commands = [x for x in TEXT_COMMANDS.keys() \
-                         if re.search(x, text)]
-    if len(suitable_commands):
-        TEXT_COMMANDS[suitable_commands[0]](bot, update)
-    else:
-        logger.warning("WRONG INPUT: User %s sent '%s'" % \
-                    (update.message.from_user.username, text))
-        start(bot, update)
 
