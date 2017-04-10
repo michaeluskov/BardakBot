@@ -7,7 +7,8 @@ import logging
 
 TEXT_COMMANDS = {
     "Помощь": bot_commands.start,
-    "Код для комнаты (.*)": bot_commands.get_room_code
+    "Код для комнаты (.*)": bot_commands.get_room_code,
+    ".{5}": bot_commands.handle_code_input
 }
 
 def handle_text_command(bot, update):

@@ -20,3 +20,10 @@ class CodesDb:
             "room_name": room_name
         })
         return code
+
+    def checkCode(self, code):
+        db_entry = self.__collection.find_one({"_id": code})
+        return db_entry
+
+    def activateCode(self, code):
+        self.__collection.remove({"_id": code})

@@ -27,3 +27,6 @@ class UsersDb:
         if user:
             return user
         return self.createUser(username, first_name, last_name)
+
+    def updateUser(self, db_user):
+        self.__collection.update_one({"_id": db_user["_id"]}, {"$set": db_user})
