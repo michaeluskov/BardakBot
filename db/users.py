@@ -16,7 +16,8 @@ class UsersDb:
             "username": username,
             "first_name": first_name,
             "last_name": last_name,
-            "admin_on": []
+            "admin_on": [],
+            "passed": []
         }
         self.__collection.insert_one(user)
         return user

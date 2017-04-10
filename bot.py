@@ -13,5 +13,6 @@ if __name__ == "__main__":
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", bot_commands.start))
     dp.add_handler(CommandHandler("help", bot_commands.start))
+    dp.add_handler(MessageHandler(Filters.text, bot_commands.handle_text_command))
     updater.start_polling()
     updater.idle()
