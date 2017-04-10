@@ -13,7 +13,7 @@ def get_keyboard(db_user):
         [KeyboardButton("Помощь")]
     ]
     for admined_room in db_user["admin_on"]:
-        buttons[0].append(KeyboardButton("Код для комнаты " + admined_room))
+        buttons.append([KeyboardButton("Код для комнаты " + admined_room)])
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True, one_time_keyboard=True)
 
 def start(bot, update):
@@ -24,13 +24,17 @@ def start(bot, update):
 
 def get_room_code(bot, update):
     username = update.message.from_user.username
-    room = "TEST_ROOM"
+    room = re.search("Код для комнаты (.*)", update.message.text)[1]
     db_user = db.users.getUser(username)
     if db_user is None or room not in db_user["admin_on"]:
-        logger.warning("NOT LOGGED IN TRY TO GEN CODE: User %s tried to get code for room %s" % (username, room))
+        logger.warning("NOT VALID TRY TO GEN CODE: User %s tried to get code for room %s" % (username, room))
         return start(bot, update)
+    code = db.codes.generateCode(room)
+    text = "Код для комнаты " + room + ":"
+    text = text + ".\n" * 20
+    text = text + code
     keyboard = get_keyboard(db_user)
-    update.message.reply_text("Код для комнаты", reply_markup=keyboard)
+    update.message.reply_text(text, reply_markup=keyboard)
 
  
 def error_handler(bot, update, error):
