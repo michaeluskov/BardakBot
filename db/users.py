@@ -30,3 +30,17 @@ class UsersDb:
 
     def updateUser(self, db_user):
         self.__collection.update_one({"_id": db_user["_id"]}, {"$set": db_user})
+
+    def getTop(self, top_number=10):
+        return self.__collection.aggregate([
+            {
+                "$project": {
+                    "passed": 1,
+                    "username": 1,
+                    "first_name": 1,
+                    "last_name": 1,
+                    "passed_length": {"$size": "$passed"}
+                }
+            },
+            {"$sort": {"passed_length": -1}}
+        ])

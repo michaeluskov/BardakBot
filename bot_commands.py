@@ -8,9 +8,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def get_keyboard(db_user):
+def get_keyboard(db_user=None):
     buttons = [
-        [KeyboardButton("Помощь")]
+        [KeyboardButton("Помощь")],
+        [KeyboardButton("Кто в топе?")]
     ]
     if db_user is not None:
         for admined_room in db_user["admin_on"]:
@@ -42,7 +43,7 @@ def handle_code_input(bot, update):
     db_user = db.users.getUser(username)
     if db_user is None:
         return start(bot, update)
-    code = update.message.text
+    code = update.message.text.upper()
     code_from_db = db.codes.checkCode(code)
     if code_from_db is None:
         return update.message.reply_text("Нет такого кода! Переспроси организатора", \
@@ -52,11 +53,17 @@ def handle_code_input(bot, update):
         db_user["passed"].append(code_from_db["room_name"])
     db.users.updateUser(db_user)
     rooms_string = ", ".join(db_user["passed"])
-    update.message.reply_text("Код для комнаты %s засчитан! Ты прошел комнаты: %s" % \
-                              (code_from_db["room_name"], rooms_string), \
+    update.message.reply_text("Код для комнаты %s засчитан! Ты прошел комнаты: %s (всего их %s)" % \
+                              (code_from_db["room_name"], rooms_string, len(db_user["passed"])), \
                               reply_markup=get_keyboard(db_user))
 
-
+def get_top(bot, update):
+    top_users = db.users.getTop(3)
+    text = "Сейчас в топе:\n"
+    for (i, user) in enumerate(top_users):
+        text += "%s. %s %s (Пройдено комнат: %s)\n" % \
+                (i + 1, user["first_name"], user["last_name"], user["passed_length"])
+    update.message.reply_text(text, reply_markup=get_keyboard())
  
 def error_handler(bot, update, error):
     logger.warning('Update "%s" caused error "%s"' % (update, error))

@@ -8,13 +8,14 @@ import logging
 TEXT_COMMANDS = {
     "Помощь": bot_commands.start,
     "Код для комнаты (.*)": bot_commands.get_room_code,
-    ".{5}": bot_commands.handle_code_input
+    "^.{5}$": bot_commands.handle_code_input,
+    "Кто в топе\?": bot_commands.get_top
 }
 
 def handle_text_command(bot, update):
     text = update.message.text
     suitable_commands = [x for x in TEXT_COMMANDS.keys() \
-                         if re.search(x, text)]
+                         if re.match(x, text)]
     if len(suitable_commands):
         TEXT_COMMANDS[suitable_commands[0]](bot, update)
     else:
