@@ -6,7 +6,7 @@ import db
 def on_message(bot, update):
     user = update.message.from_user
     
-    logger.info("User %s sent '%s'" % (user.username, update.message.text))
+    logger.info("User %s sent '%s'" % (user.username or user.id, update.message.text))
     db_user = db.users.getOrCreateUser(user.id, user.username, user.first_name, user.last_name)
     update.message.reply_text(config.IDLE_TEXT)
 

@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 def get_keyboard(db_user=None):
     buttons = [
         [KeyboardButton("Помощь")],
+        [KeyboardButton("Список комнат")],
         [KeyboardButton("Кто в топе?")]
     ]
     if db_user is not None:
