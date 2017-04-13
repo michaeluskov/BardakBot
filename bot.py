@@ -9,7 +9,8 @@ TEXT_COMMANDS = {
     "Помощь": bot_commands.start,
     "Код для комнаты (.*)": bot_commands.get_room_code,
     "^.{5}$": bot_commands.handle_code_input,
-    "Кто в топе\?": bot_commands.get_top
+    "Кто в топе\?": bot_commands.get_top,
+    "Список комнат": bot_commands.rooms_list
 }
 
 def handle_text_command(bot, update):
@@ -27,6 +28,10 @@ if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
     logger = logging.getLogger(__name__)
+    logFormatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fileHandler = logging.FileHandler("./log.txt")
+    fileHandler.setFormatter(logFormatter)
+    logger.addHandler(fileHandler)
     
     # https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/echobot2.py
     updater = Updater(config.BOT_TOKEN)

@@ -38,6 +38,12 @@ def get_room_code(bot, update):
     keyboard = get_keyboard(db_user)
     update.message.reply_text(text, reply_markup=keyboard)
 
+def rooms_list(bot, update):
+    username = update.message.from_user.username
+    db_user = db.users.getUser(username)
+    keyboard = get_keyboard(db_user)
+    update.message.reply_text(config.ROOMS_TEXT, reply_markup=keyboard)
+    
 def handle_code_input(bot, update):
     username = update.message.from_user.username
     db_user = db.users.getUser(username)

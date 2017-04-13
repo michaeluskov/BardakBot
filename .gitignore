@@ -104,3 +104,4 @@ pip-selfcheck.json
 /*.wpu
 /config/config_local.py
 /.idea
+/log.txt
