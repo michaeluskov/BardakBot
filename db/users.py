@@ -7,12 +7,12 @@ class UsersDb:
         self.__db = db
         self.__collection = db.users
 
-    def getUser(self, username):
-        return self.__collection.find_one({"_id": username})
+    def getUser(self, id):
+        return self.__collection.find_one({"_id": id})
 
-    def createUser(self, username, first_name, last_name):
+    def createUser(self, id, username, first_name, last_name):
         user = {
-            "_id": username,
+            "_id": id,
             "username": username,
             "first_name": first_name,
             "last_name": last_name,
@@ -22,11 +22,11 @@ class UsersDb:
         self.__collection.insert_one(user)
         return user
 
-    def getOrCreateUser(self, username, first_name, last_name):
-        user = self.getUser(username)
+    def getOrCreateUser(self, id, username, first_name, last_name):
+        user = self.getUser(id)
         if user:
             return user
-        return self.createUser(username, first_name, last_name)
+        return self.createUser(id, username, first_name, last_name)
 
     def updateUser(self, db_user):
         self.__collection.update_one({"_id": db_user["_id"]}, {"$set": db_user})
@@ -36,6 +36,7 @@ class UsersDb:
             {
                 "$project": {
                     "passed": 1,
+                    "id": 1,
                     "username": 1,
                     "first_name": 1,
                     "last_name": 1,

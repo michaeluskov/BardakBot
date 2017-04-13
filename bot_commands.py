@@ -20,14 +20,14 @@ def get_keyboard(db_user=None):
 
 def start(bot, update):
     user = update.message.from_user
-    db_user = db.users.getOrCreateUser(user.username, user.first_name, user.last_name)
+    db_user = db.users.getOrCreateUser(user.id, user.username, user.first_name, user.last_name)
     keyboard = get_keyboard(db_user)
     update.message.reply_text(config.START_TEXT, reply_markup=keyboard)
 
 def get_room_code(bot, update):
-    username = update.message.from_user.username
+    user = update.message.from_user
     room = re.search("Код для комнаты (.*)", update.message.text)[1]
-    db_user = db.users.getUser(username)
+    db_user = db.users.getUser(user.id)
     if db_user is None or room not in db_user["admin_on"]:
         logger.warning("NOT VALID TRY TO GEN CODE: User %s tried to get code for room %s" % (username, room))
         return start(bot, update)
@@ -39,14 +39,14 @@ def get_room_code(bot, update):
     update.message.reply_text(text, reply_markup=keyboard)
 
 def rooms_list(bot, update):
-    username = update.message.from_user.username
-    db_user = db.users.getUser(username)
+    user = update.message.from_user
+    db_user = db.users.getUser(user.id)
     keyboard = get_keyboard(db_user)
     update.message.reply_text(config.ROOMS_TEXT, reply_markup=keyboard)
     
 def handle_code_input(bot, update):
-    username = update.message.from_user.username
-    db_user = db.users.getUser(username)
+    user = update.message.from_user
+    db_user = db.users.getUser(user.id)
     if db_user is None:
         return start(bot, update)
     code = update.message.text.upper()
