@@ -9,6 +9,9 @@ class UsersDb:
 
     def getUser(self, id):
         return self.__collection.find_one({"_id": id})
+        
+    def getAllUsers(self):
+        return self.__collection.find({})
 
     def createUser(self, id, username, first_name, last_name):
         user = {

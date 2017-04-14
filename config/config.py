@@ -17,6 +17,9 @@ IDLE_TEXT = """Привет! Я бот, который поможет тебе �
 Ну все, до субботы! Не забывай меня.
 """
 
+SEND_TEXT = """Я отправлю этот текст.
+"""
+
 # -------------------------------------------------------------------------------------
 if not os.path.exists(os.path.dirname(os.path.realpath(__file__)) + "/config_local.py"):
     print("You can set your own local settings in config/config_local.py")
