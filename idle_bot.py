@@ -9,6 +9,9 @@ def on_message(bot, update):
     logger.info("User %s sent '%s'" % (user.username or user.id, update.message.text))
     db_user = db.users.getOrCreateUser(user.id, user.username, user.first_name, user.last_name)
     update.message.reply_text(config.IDLE_TEXT)
+    
+def error_handler(bot, update, error):
+    logger.warning('Update "%s" caused error "%s"' % (update, error))
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -24,6 +27,7 @@ if __name__ == "__main__":
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", on_message))
     dp.add_handler(MessageHandler(Filters.text, on_message))
+    dp.add_error_handler(error_handler)
     updater.start_polling()
     logger.info("Idle bot started")
     updater.idle()
