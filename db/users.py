@@ -46,5 +46,6 @@ class UsersDb:
                     "passed_length": {"$size": "$passed"}
                 }
             },
-            {"$sort": {"passed_length": -1}}
+            {"$sort": {"passed_length": -1}},
+            {"$limit": top_number}
         ])
