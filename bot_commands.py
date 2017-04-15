@@ -27,7 +27,8 @@ def start(bot, update):
 
 def get_room_code(bot, update):
     user = update.message.from_user
-    room = re.search("Код для комнаты (.*)", update.message.text)[1]
+    room_re = re.search("Код для комнаты (.*)", update.message.text)
+    room = room_re.group(1)
     db_user = db.users.getUser(user.id)
     if db_user is None or room not in db_user["admin_on"]:
         logger.warning("NOT VALID TRY TO GEN CODE: User %s tried to get code for room %s" % (username, room))
