@@ -39,6 +39,6 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("start", bot_commands.start))
     dp.add_handler(CommandHandler("help", bot_commands.start))
     dp.add_handler(MessageHandler(Filters.text, handle_text_command))
-    dp.add_error_handler(error_handler)
+    dp.add_error_handler(bot_commands.error_handler)
     updater.start_polling()
     updater.idle()
