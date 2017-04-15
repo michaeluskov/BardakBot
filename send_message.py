@@ -7,5 +7,6 @@ user_ids = [x["_id"] for x in db_users]
 
 bot = Bot(config.BOT_TOKEN)
 for i in user_ids:
+    print("Sending message to %s" % i)
     bot.sendMessage(i, config.SEND_TEXT)
 
